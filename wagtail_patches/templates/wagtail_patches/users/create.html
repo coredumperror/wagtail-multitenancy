@@ -1,0 +1,20 @@
+{% extends "wagtailadmin/base.html" %}
+{% load wagtailimages_tags %}
+
+{% block titletag %}Add user{% endblock %}
+
+{% block content %}
+  {% include "wagtailadmin/shared/header.html" with title="Add User" icon="user" %}
+
+  <form action="{% url 'wagtailusers_users:add' %}" method="POST" class="create-user">
+    <div class="nice-padding">
+      {% csrf_token %}
+      <ul class="fields">
+        {% for field in form %}
+          {% include "wagtailadmin/shared/field_as_li.html" with field=field %}
+        {% endfor %}
+        <li><input type="submit" value="Add user" class="button" /></li>
+      </ul>
+    </div>
+  </form>
+{% endblock %}

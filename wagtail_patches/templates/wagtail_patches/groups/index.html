@@ -1,0 +1,25 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% load gravatar %}
+{% block titletag %}Groups{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script>
+    window.headerSearch = {
+      url: "{% url 'wagtailusers_groups:index' %}",
+      termInput: "#id_q",
+      targetOutput: "#group-results"
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+  {% include "wagtailadmin/shared/header.html" with title="Groups" add_link="wagtailusers_groups:add" add_text="Add a Group" icon="group" search_url="wagtailusers_groups:index" %}
+
+  <div class="nice-padding">
+    <div id="group-results" class="groups">
+      {% include "wagtail_patches/groups/results.tpl" %}
+    </div>
+  </div>
+{% endblock %}

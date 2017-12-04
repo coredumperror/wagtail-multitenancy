@@ -1,0 +1,25 @@
+{% extends "wagtailadmin/base.html" %}
+{% load gravatar %}
+
+{% block titletag %}Users{% endblock %}
+
+{% block extra_js %}
+  {{ block.super }}
+  <script>
+    window.headerSearch = {
+      url: "{% url 'wagtailusers_users:index' %}",
+      termInput: "#id_q",
+      targetOutput: "#user-results"
+    }
+  </script>
+{% endblock %}
+
+{% block content %}
+  {% include "wagtail_patches/users/user_list_header.tpl" %}
+
+  <div class="nice-padding">
+    <div id="user-results" class="users">
+      {% include "wagtail_patches/users/results.tpl" %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+Right now, this is just a haphazard collection of the code we wrote to make this
+all work. It is not intended to be a functional Django app. Yet.
+
+One of the biggest limitations we ran into was the impossibility of swapping in
+a new Group and Collection model. This meant that we could not directly relate
+the Collections and Groups to each Site, which is why there is so much janky code
+that "relates" them through the string value of the Site's hostname.
+
+One of the design philosophies we went with is "Only Superusers have permission
+to see more than one Site's contents at a time". Everyone else can only see the
+contents of Sites to which they are members. A user is a member of a Site if they
+belong to eithe the "Admins" or "Editors" Group for that site (the group name
+starts with that Site's hostname).
+
+Generally, Superusers are meant to do only a few things: create new Sites, create
+the first Admin for a new Site, and perform high-level maintenance. They *could*
+do other things, but are discouraged from doing so, to avoid accidentally doing
+something to the wrong Site. Instead, if they intend to administer a Site, they
+should add their LDAPUser to a Site's Admins group, then log in to that site as
+that user. Also, LDAPUsers are discouraged from being made into Superusers.
+Suprusers are "special", and should therefore be defined as custom LocalUsers.

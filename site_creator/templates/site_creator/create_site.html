@@ -1,0 +1,31 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% block bodyclass %}create-site admin-page{% endblock %}
+
+{% block titletag %}{{ view.page_title }}{% endblock %}
+
+{% block content %}
+  <header class="nice-padding">
+    <div class="row">
+      <div class="left">
+        <div class="col">
+          <h1 class="icon icon-site">
+            {{ view.page_title }}
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% include 'theme/base_form.tpl' with submit_name='Create' %}
+{% endblock %}
+
+{% block extra_css %}
+    {% include "wagtailadmin/pages/_editor_css.html" %}
+    {{ form.media.css }}
+{% endblock %}
+
+{% block extra_js %}
+    {% include "wagtailadmin/pages/_editor_js.html" %}
+    {{ form.media.js }}
+{% endblock %}

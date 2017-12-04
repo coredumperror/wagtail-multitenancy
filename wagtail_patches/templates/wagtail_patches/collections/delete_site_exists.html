@@ -1,0 +1,11 @@
+{% extends "wagtailadmin/base.html" %}
+{% block titletag %}{{ view.page_title }}{% endblock %}
+
+{% block content %}
+    {% include "wagtailadmin/shared/header.html" with title=view.page_title subtitle=view.get_page_subtitle icon=view.header_icon %}
+
+    <div class="nice-padding">
+        <p>This collection cannot be deleted because it is associated with an existing Site: {{ site_name }}.</p>
+        <p>You must delete that Site before deleting this collection.</p>
+    </div>
+{% endblock %}

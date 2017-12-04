@@ -1,0 +1,54 @@
+{% extends "wagtailadmin/base.html" %}
+{% block titletag %}Editing {{ setting_type_name }}{% endblock %}
+{% block bodyclass %}site-settings{% endblock %}
+{% block content %}
+  <header class="nice-padding">
+    <div class="row">
+      <div class="left">
+        <div class="col">
+          <h1 class="icon icon-cogs">
+            Editing <span>{{ setting_type_name|capfirst }}</span>
+          </h1>
+        </div>
+      </div>
+      <div class="right">
+        {# WE ONLY ALLOW SUPERUSERS TO SWITCH SITES #}
+        {% if site_switcher and request.user.is_superuser %}
+          <form method="get" id="settings-site-switch">
+            <label for="{{ site_switcher.site.id_for_label }}">
+              Site:
+            </label>
+            {{ site_switcher.site }}
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  {{ form.rich_help }}
+
+  <form action="{% url 'wagtailsettings:edit' opts.app_label opts.model_name site.pk %}" class="{{ form.css_class }}"
+      method="POST"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+    {% csrf_token %}
+    {{ edit_handler.render_form_content }}
+    <input type="hidden" name="destination" value="{{ request.GET.destination }}">
+
+    <footer>
+      <ul>
+        <li class="actions dropdown dropup match-width">
+          <button type="submit" class="button button-longrunning" tabindex="3"
+            data-clicked-text="Saving..."><span class="icon icon-spinner"></span><em>Save</em></button>
+        </li>
+      </ul>
+    </footer>
+  </form>
+{% endblock %}
+
+{% block extra_css %}
+  {% include "wagtailadmin/pages/_editor_css.html" %}
+  {{ site_switcher.media.css }}
+{% endblock %}
+{% block extra_js %}
+  {% include "wagtailadmin/pages/_editor_js.html" %}
+  {{ site_switcher.media.js }}
+{% endblock %}
